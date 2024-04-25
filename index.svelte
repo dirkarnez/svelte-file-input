@@ -58,7 +58,7 @@
 	  <h3>Attached Files</h3>
 	  {#each files as file, index}
 	    <div class="file-item">
-				<input type="file" name={`a[0].b[${index}]`} bind:value={file}>
+				<input type="file" style={`display: none`} name={`a[0].b[${index}]`} bind:value={file}>
 	      <span class="file-name">{file.name}</span>
 	      <div class="file-actions">
 	        <button on:click={() => removeFile(index)}>Remove</button>
