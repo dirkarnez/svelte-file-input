@@ -3,7 +3,12 @@
 
   let files = [];
 
+	function validate(event) {
+		console.log(event.type)
+		debugger;
+	}
   function handleFileInput(event) {
+		console.log(event.type)
     const fileList = event.target.files;
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList[i];
@@ -11,12 +16,12 @@
     }
 		debugger;
 		event.target.value = '';
-		
   }
 
   function removeFile(index) {
     files = files.filter((_, i) => i !== index);
   }
+	
   onMount(() => {
     // Clear the file input on mount to prevent retaining previous selections
     const fileInput = document.getElementById('file-input');
@@ -48,16 +53,20 @@
 
 <h2>File Input Form</h2>
 
-<input type="file" id="file-input" multiple on:change={handleFileInput}>
-
-{#if files.length > 0}
-  <h3>Attached Files</h3>
-  {#each files as file, index}
-    <div class="file-item">
-      <span class="file-name">{file.name}</span>
-      <div class="file-actions">
-        <button on:click={() => removeFile(index)}>Remove</button>
-      </div>
-    </div>
-  {/each}
-{/if}
+<form on:submit|preventDefault={validate}>
+	{#if files.length > 0}
+	  <h3>Attached Files</h3>
+	  {#each files as file, index}
+	    <div class="file-item">
+				<input type="file" name={`a[0].b[${index}]`} bind:value={file}>
+	      <span class="file-name">{file.name}</span>
+	      <div class="file-actions">
+	        <button on:click={() => removeFile(index)}>Remove</button>
+	      </div>
+	    </div>
+	  {/each}
+	{/if}
+	{files.length}
+	<input type="file" id="file-input" multiple on:change={handleFileInput}>
+	<input type="submit" value="Send Request" />
+</form>
